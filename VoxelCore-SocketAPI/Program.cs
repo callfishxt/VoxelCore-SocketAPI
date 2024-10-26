@@ -56,7 +56,6 @@ namespace SocketAPI
         }
         static void Connect(string data)
         {
-            Console.ForegroundColor = ConsoleColor.White;
             try
             {
                 string args = data.Substring(3).Split('/')[0];
@@ -106,7 +105,6 @@ namespace SocketAPI
             }
             catch
             {
-                Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("Disconected");
                 conected = false;
                 return "-cn";
@@ -119,8 +117,6 @@ namespace SocketAPI
             {
                 string indata = File.ReadAllText(curdirect + "/inData");
                 File.Delete(curdirect + "/inData");
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("in:\n" + indata.Replace("\t", "\n"));
                 if (conected)
                 {
                     outData(Socet(indata));
@@ -140,15 +136,12 @@ namespace SocketAPI
         }
         static void outData(string outdata)
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("out:\n" + outdata.Replace("\t", "\n"));
             if (!File.Exists(curdirect + "/outData"))
             {
                 File.WriteAllText(curdirect + "/outData", outdata);
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("out Data fauled");
             }
         }
