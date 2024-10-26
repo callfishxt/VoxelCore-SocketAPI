@@ -58,15 +58,18 @@ namespace SocketAPI
         {
             try
             {
-                string args = data.Substring(3).Split('/')[0];
-                var tcpEndPoint = new IPEndPoint(IPAddress.Parse(args), Convert.ToInt32("4307"));
+                string[] args = data.Split('/');
+                buffersuze = int.Parse(args[2]);
+                if (File.Exists(curdirect + "/outData")) File.Delete(curdirect + "/outData");
+                if (File.Exists(curdirect + "/inData")) File.Delete(curdirect + "/inData");
+                var tcpEndPoint = new IPEndPoint(IPAddress.Parse(args[0]), Convert.ToInt32(args[1]));
                 var tcpSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 tcpSocket.Connect(tcpEndPoint);
                 socket = tcpSocket;
-                string a = Socet(data);
+                string a = Socet(data.Substring(args[0].Length + args[1].Length + args[2].Length + 3));
                 if (a == "-cn")
                 {
-                    Console.WriteLine("Error connect");
+                    Console.WriteLine("Error connect server");
                     outData("-cn");
                     return;
                 }
@@ -76,7 +79,7 @@ namespace SocketAPI
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error connect");
+                Console.WriteLine("Error connect program");
                 Console.WriteLine(e);
                 outData("-cn");
             }
@@ -85,14 +88,14 @@ namespace SocketAPI
         private static Socket socket;
         private static string curdirect = "";
         private static bool conected = false;
-
+        private static int buffersuze;
         static string Socet(string str)
         {
             try
             {
                 var data = Encoding.UTF8.GetBytes(str);
                 socket.Send(data);
-                var buffer = new byte[512];
+                var buffer = new byte[buffersuze];
                 var size = 0;
                 var answer = new StringBuilder();
                 do
@@ -123,14 +126,7 @@ namespace SocketAPI
                 }
                 else
                 {
-                    if(indata.Substring(0, 3) == "~cn")
-                    {
-                        Connect(indata);
-                    }
-                    else
-                    {
-                        outData("-cn");
-                    }
+                    Connect(indata);
                 }
             }
         }
