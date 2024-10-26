@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.IO;
-using System.IO.MemoryMappedFiles;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -17,16 +16,18 @@ namespace SocketAPI
             try
             {
                 string th2 = @"";
+                string path = "./";
                 for (int i = 0; i < 4; i++)
-                {
-                    if (Directory.Exists(Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, th2)) + "/export"))
+                {   
+                    path = "./" + th2;
+                    if (Directory.Exists(path + "export"))
                     {
-                        curdirect = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, th2)) + "/export";
+                        curdirect = path + "export";
                         break;
                     }
                     else
                     {
-                        th2 += @"..\";
+                        th2 += @"../";
                     }
                 }
                 if(curdirect == "")
@@ -69,6 +70,7 @@ namespace SocketAPI
                     outData("-cn");
                     return;
                 }
+                conected = true;
                 Console.WriteLine("Connected");
                 outData(a);
             }
