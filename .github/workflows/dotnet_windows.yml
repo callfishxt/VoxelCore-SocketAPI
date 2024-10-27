@@ -20,17 +20,17 @@ jobs:
     - name: Restore dependencies
       run: |
         cd VoxelCore-SocketAPI
-        nuget restore VoxelCore-SocketAPI.sln
+        nuget restore VoxelCore-SocketAPI.csproj
 
     - name: Build
       run: |
         cd VoxelCore-SocketAPI
-        msbuild VoxelCore-SocketAPI.sln /p:Configuration=Release /t:Build
+        msbuild VoxelCore-SocketAPI.csproj /p:Configuration=Release /t:Build
 
     - name: Create Archive
       run: |
         cd VoxelCore-SocketAPI
-        msbuild VoxelCore-SocketAPI.sln /p:Configuration=Release /t:Publish /p:OutputPath=./output
+        msbuild VoxelCore-SocketAPI.csproj /p:Configuration=Release /t:Publish /p:OutputPath=./output
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
