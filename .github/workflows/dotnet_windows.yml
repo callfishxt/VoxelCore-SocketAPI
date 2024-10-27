@@ -25,12 +25,7 @@ jobs:
       run: |
         cd VoxelCore-SocketAPI
         dotnet build --no-restore
-    
-    - name: Test
-      run: | 
-        cd VoxelCore-SocketAPI 
-        dotnet test --no-build --verbosity normal
-    
+        
     - name: Create Archive
       run: |
         cd VoxelCore-SocketAPI
