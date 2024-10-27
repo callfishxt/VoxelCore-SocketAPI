@@ -1,4 +1,4 @@
-name: .NET Windows
+name: .NET Framework Windows
 
 on:
   push:
@@ -8,34 +8,30 @@ on:
 
 jobs:
   build:
-
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.x
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.0.2
+
     - name: Restore dependencies
-      run: | 
+      run: |
         cd VoxelCore-SocketAPI
-        dotnet restore
-        
+        nuget restore VoxelCore-SocketAPI.sln
+
     - name: Build
       run: |
         cd VoxelCore-SocketAPI
-        dotnet build --no-restore
-
-    - name: Test
-      run: | 
-        cd VoxelCore-SocketAPI 
-        dotnet test --no-build --verbosity normal
+        msbuild VoxelCore-SocketAPI.sln /p:Configuration=Release /t:Build
 
     - name: Create Archive
       run: |
         cd VoxelCore-SocketAPI
-        dotnet publish -c Release -o ./output
+        msbuild VoxelCore-SocketAPI.sln /p:Configuration=Release /t:Publish /p:OutputPath=./output
+
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
