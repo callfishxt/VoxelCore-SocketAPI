@@ -1,10 +1,10 @@
-name: .NET Framework Windows
+name: .NET Framework 4.7.2 Windows
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
@@ -20,17 +20,17 @@ jobs:
     - name: Restore dependencies
       run: |
         cd VoxelCore-SocketAPI
-        nuget restore VoxelCore-SocketAPI.csproj
+        nuget restore VoxelCore-SocketAPI.csproj  # Adjust if using various project files
 
     - name: Build
       run: |
         cd VoxelCore-SocketAPI
-        msbuild VoxelCore-SocketAPI.csproj /p:Configuration=Release /t:Build
+        msbuild VoxelCore-SocketAPI.csproj /p:Configuration=Release /p:TargetFrameworkVersion=v4.7.2
 
     - name: Create Archive
       run: |
         cd VoxelCore-SocketAPI
-        msbuild VoxelCore-SocketAPI.csproj /p:Configuration=Release /t:Publish /p:OutputPath=./output
+        msbuild VoxelCore-SocketAPI.csproj /p:Configuration=Release /t:Publish /p:OutputPath=./output /p:TargetFrameworkVersion=v4.7.2
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
